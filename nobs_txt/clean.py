@@ -40,7 +40,36 @@ _SPECIAL_SPACES = {
     "\u00ad": "",   # soft hyphen
 }
 
-_SPACE_RE = re.compile(r"[ 	\f\v]+")
+_SPACE_RE = re.compile(r"[ \t\f\v]+")
+
+#: A line that is only a page number (1-4 digits).
+_STRAY_DIGIT_LINE_RE = re.compile(r"^\s*\d{1,4}\s*$")
+#: Page number glued to the previous word with a hyphen ("as-93") or a
+#: punctuation mark ("frioquente, 11"). 3+ digit numbers keep the word when
+#: separated by a plain space (years, counts); ranges like "1999-2000" are
+#: safe because their second half has 4 digits.
+_GLUED_HYPHEN_RE = re.compile(r"[-–—]\s*\d{1,3}\s*$")
+_GLUED_PUNCT_RE = re.compile(r"[,;:]\s*\d{1,3}\s*$")
+
+
+def strip_number_artifacts(paragraph: str) -> str:
+    """Remove printed page-number artifacts embedded in the text.
+
+    Handles standalone digit lines ("97") and numbers glued to a word at the
+    end of a line ("as-93", "frioquente, 11"). Years and other 4+ digit
+    numbers are left alone.
+    """
+    lines = paragraph.split("\n")
+    kept: list[str] = []
+    for line in lines:
+        line = line.rstrip()
+        if _STRAY_DIGIT_LINE_RE.match(line):
+            continue
+        line = _GLUED_HYPHEN_RE.sub("", line)
+        line = _GLUED_PUNCT_RE.sub("", line)
+        if line.strip():
+            kept.append(line)
+    return "\n".join(kept)
 
 
 def clean_text(text: str) -> str:

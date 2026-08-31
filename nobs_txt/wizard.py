@@ -80,6 +80,8 @@ def _run_wizard() -> int:
     mode = _choice("Character mode", ["full", "barebones"], default="full")
     encoding = _choice("Output encoding", ["utf-8", "ascii"], default="utf-8")
     reflow = _yesno("Join wrapped lines into paragraphs (reflow)", default=False)
+    no_breaks = _yesno("Output as one continuous line (no line breaks)", default=False)
+    strip_numbers = _yesno("Remove stray/glued page numbers", default=False)
     split = _yesno("Split chapters into separate files", default=False)
     framing = _yesno("Strip headers, footers and page numbers", default=True)
     clean = _yesno("Clean punctuation, ligatures and special spaces", default=True)
@@ -90,8 +92,10 @@ def _run_wizard() -> int:
         mode=mode,
         encoding=encoding,
         reflow=reflow,
+        no_breaks=no_breaks,
         split_chapters=split,
         strip_framing=framing,
+        strip_numbers=strip_numbers,
         clean=clean,
         hyphenation=hyphenation,
         out_dir=Path(out_raw),
@@ -103,6 +107,7 @@ def _run_wizard() -> int:
     print(f"  mode      : {mode}")
     print(f"  encoding  : {encoding}")
     print(f"  reflow    : {'yes' if reflow else 'no'}")
+    print(f"  no breaks : {'yes' if no_breaks else 'no'}")
     print(f"  split     : {'yes' if split else 'no'}")
     print(f"  output    : {out_raw}")
     if not _yesno("Proceed", default=True):

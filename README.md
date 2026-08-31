@@ -45,6 +45,8 @@ nobs-txt
 | `--mode {full,barebones}` | character handling (default `full`) |
 | `--encoding {utf-8,ascii}` | output encoding; `ascii` transliterates (default `utf-8`) |
 | `--reflow` | join wrapped lines into paragraphs |
+| `--no-breaks` | output the whole book as one continuous line (no newlines) |
+| `--strip-numbers` | remove stray page numbers and numbers glued to words (`as-93`, `frioquente, 11`); years and ranges like `1999-2000` are kept |
 | `--split-chapters` | write per-chapter files + combined file |
 | `--chapter-patterns RE[,RE...]` | override default heading regexes |
 | `--no-framing` | keep headers, footers and page numbers |

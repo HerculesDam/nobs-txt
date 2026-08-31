@@ -48,7 +48,7 @@ def test_cli_unsupported_format(tmp_path, capsys):
 
 def test_cli_wizard_flow(monkeypatch, tmp_path):
     pdf = make_pdf(tmp_path)
-    answers = iter([str(pdf), "", "", "", "", "", "", "", "", ""])
+    answers = iter([str(pdf), "", "", "", "", "", "", "", "", "", "", ""])
     monkeypatch.setattr("builtins.input", lambda _prompt="": next(answers))
     rc = cli.main([])
     assert rc == 0

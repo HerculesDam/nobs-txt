@@ -1,4 +1,4 @@
-from nobs_txt.clean import assemble_paragraph, clean_text
+from nobs_txt.clean import assemble_paragraph, clean_text, strip_number_artifacts
 
 
 def test_ligatures():
@@ -46,3 +46,31 @@ def test_hyphen_no_join_uppercase():
 
 def test_assemble_skips_empty_lines():
     assert assemble_paragraph(["one", "", "two"]) == "one\ntwo"
+
+
+def test_strip_standalone_digit_line():
+    assert strip_number_artifacts("97") == ""
+    assert strip_number_artifacts(" 9 \n") == ""
+
+
+def test_strip_glued_hyphen_number():
+    assert strip_number_artifacts("sobre as-93") == "sobre as"
+
+
+def test_strip_glued_punct_number():
+    assert strip_number_artifacts("frioquente, 11") == "frioquente"
+    assert strip_number_artifacts("frioquente; 11") == "frioquente"
+
+
+def test_strip_multiline_paragraph():
+    text = "primeira linha\n97\nsegunda as-93"
+    assert strip_number_artifacts(text) == "primeira linha\nsegunda as"
+
+
+def test_keeps_years_and_ranges():
+    assert strip_number_artifacts("em 1999") == "em 1999"
+    assert strip_number_artifacts("1999-2000") == "1999-2000"
+
+
+def test_keeps_normal_numbers():
+    assert strip_number_artifacts("o numero 42 e a pagina 100") == "o numero 42 e a pagina 100"

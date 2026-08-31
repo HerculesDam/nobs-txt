@@ -35,6 +35,16 @@ def build_parser() -> argparse.ArgumentParser:
         help="join wrapped lines into paragraphs",
     )
     parser.add_argument(
+        "--no-breaks",
+        action="store_true",
+        help="output the whole book as one continuous line (no newlines)",
+    )
+    parser.add_argument(
+        "--strip-numbers",
+        action="store_true",
+        help="remove stray page numbers and numbers glued to words (as-93)",
+    )
+    parser.add_argument(
         "--split-chapters",
         action="store_true",
         help="write one file per chapter plus the combined file",
@@ -83,8 +93,10 @@ def _options_from_args(args: argparse.Namespace) -> Options:
         mode=args.mode,
         encoding=args.encoding,
         reflow=args.reflow,
+        no_breaks=args.no_breaks,
         split_chapters=args.split_chapters,
         strip_framing=args.strip_framing,
+        strip_numbers=args.strip_numbers,
         clean=args.clean,
         hyphenation=args.hyphenation,
         chapter_patterns=(

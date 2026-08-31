@@ -34,8 +34,10 @@ class Options:
     mode: str = "full"            # "full" | "barebones"
     encoding: str = "utf-8"       # "utf-8" | "ascii"
     reflow: bool = False          # join wrapped lines into paragraphs
+    no_breaks: bool = False       # output as one continuous line (no newlines)
     split_chapters: bool = False  # write one file per chapter
     strip_framing: bool = True    # remove headers/footers/page numbers
+    strip_numbers: bool = False   # remove stray/glued page-number artifacts
     clean: bool = True            # punctuation/ligature/space cleaning
     hyphenation: bool = True      # fix hyphenation across line breaks
     chapter_patterns: list[str] | None = None  # override heading regexes
