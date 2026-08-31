@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "nobs-txt"
+version = "0.1.0"
+description = "No bs TXT converter — turns PDF/EPUB books into the simplest possible plain text."
+readme = "README.md"
+requires-python = ">=3.10"
+license = {text = "MIT"}
+authors = [{name = "DeepSeek CLI"}]
+keywords = ["pdf", "epub", "text", "converter", "cli"]
+dependencies = [
+    "PyMuPDF>=1.23",
+    "beautifulsoup4>=4.12",
+    "ebooklib>=0.18",
+    "pykakasi>=2.2",
+    "pypinyin>=0.50",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7.4"]
+
+[project.scripts]
+nobs-txt = "nobs_txt.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["nobs_txt*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
